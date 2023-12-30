@@ -13,7 +13,7 @@ class Enemigo {
 
   draw(ctx) { 
     ctx.fillStyle = "blue";
-    ctx.fillRect(this.posX, this.posY, this.sizeX, this.sizeY)
+    ctx.fillRect(this.posX, this.posY, this.sizeX, this.sizeY);
   }
 
   abajo(posY) {

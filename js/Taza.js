@@ -5,6 +5,9 @@ class Taza {
     this.sizeX = 10;
     this.sizeY = 10;
 
+    this.apuntaX = this.posX + 5;
+    this.apuntaY = this.posY - 8;
+
     this.derecha = false;
     this.izquierda = false;
     this.jumping = false;
@@ -14,6 +17,12 @@ class Taza {
   draw(ctx) {
     ctx.fillStyle = "black";
     ctx.fillRect(this.posX, this.posY, this.sizeX, this.sizeY)
+
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    ctx.moveTo(this.posX + 5, this.posY - 2);
+    ctx.lineTo(this.apuntaX , this.apuntaY);
+    ctx.stroke();
    }
 
   checkMoves() {
@@ -31,6 +40,10 @@ class Taza {
       this.jumping_i = 0;
       this.jumping = false;
     }
+  }
+
+  disparar() {
+    this.balas.push(new Bala(this.posX, this.posY, "red"));
   }
 
   moverDerecha(x) { this.posX += x }

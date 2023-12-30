@@ -27,13 +27,19 @@ function draw() {
   }
 }
 
-window.addEventListener("keydown", (e) => {
+addEventListener("mousemove", (e) => {
+  taza.apuntaX = e.clientX;
+  taza.apuntaY = e.clientY;
+});
+
+addEventListener("keydown", (e) => {
   if (!taza.jumping && e.code == "ArrowUp" && taza.posY == HEIGHT - 10) taza.jumping = true;
   if (!taza.derecha && e.code == "ArrowRight") taza.derecha = true;
   if (!taza.izquierda && e.code == "ArrowLeft") taza.izquierda = true;
+  if (e.code == "ArrowDown") taza.disparar();
 });
 
-window.addEventListener("keyup", (e) => {
+addEventListener("keyup", (e) => {
   if (taza.derecha && e.code == "ArrowRight") taza.derecha = false;
   if (taza.izquierda && e.code == "ArrowLeft") taza.izquierda = false;
 });
