@@ -1,0 +1,17 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+#canvas {
+  margin-top: 5rem;
+  border: black 1px solid;
+}
