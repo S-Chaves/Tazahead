@@ -17,9 +17,11 @@ function draw() {
     taza.checkMoves();
 
     escenario.gravedad();
-    escenario.checkColision()
-    
-    taza.draw(ctx);
+    escenario.checkColision();
+    escenario.nuevoEnemigo();
+    escenario.moverEnemigos();
+
+    escenario.draw(ctx);
 
     window.requestAnimationFrame(draw);
   }

@@ -11,7 +11,10 @@ class Taza {
     this.jumping_i = 0;
   }
 
-  draw(ctx) { ctx.fillRect(this.posX, this.posY, this.sizeX, this.sizeY) }
+  draw(ctx) {
+    ctx.fillStyle = "black";
+    ctx.fillRect(this.posX, this.posY, this.sizeX, this.sizeY)
+   }
 
   checkMoves() {
     if (this.jumping) this.jump();
