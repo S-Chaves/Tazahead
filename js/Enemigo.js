@@ -14,8 +14,8 @@ class Enemigo {
     ctx.fillRect(this.posX, this.posY, this.sizeX, this.sizeY);
   }
 
-  abajo(posY) {
-    this.posY += posY * this.velocidad;
+  mover() {
+    this.posY += 2 * this.velocidad;
   }
 }
 

@@ -2,21 +2,30 @@ import Enemigo from "./Enemigo.js";
 import Bala from "./Bala.js";
 
 class Disparador extends Enemigo {
-  constructor(posX, posY, apunX, apunY) {
+  constructor(posX, posY, taza) {
     super(posX, posY, "green");
-    this.apunX = apunX;
-    this.apunY = apunY;
+    this.taza = taza;
 
     this.interval;
     this.balas = [];
   }
 
-  disparar(apunX, apunY) {
-    this.balas.push(new Bala(this.posX, this.posY, apunX, apunY, "purple"));
+  draw(ctx) {
+    super.draw(ctx);
+    this.balas.forEach(b => b.draw(ctx));
+  }
+
+  disparar() {
+    this.balas.push(new Bala(this.posX, this.posY, this.taza.posX, this.taza.posY, "purple"));
   }
 
   iniciarDisparos() {
-    this.interval = setInterval(() => { this.disparar(this.apunX, this.apunY) }, 1000);
+    this.interval = setInterval(() => { this.disparar() }, 1000);
+  }
+
+  mover() {
+    super.mover();
+    this.balas.forEach(b => b.mover());
   }
 
   puntos() { return 10 }

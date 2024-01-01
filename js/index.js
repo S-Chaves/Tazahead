@@ -5,12 +5,32 @@ const canvas = document.querySelector("#canvas");
 const vida = document.querySelector("#vida");
 const inmune = document.querySelector("#inmune");
 const puntos = document.querySelector("#puntos");
+const tiempo = document.querySelector("#tiempo");
 
 const WIDTH = 400;
 const HEIGHT = 400;
 
 const taza = new Taza(10, HEIGHT - 10);
 const escenario = new Escenario(WIDTH, HEIGHT, taza);
+
+function updateClock(initTime) {
+  const now = new Date();
+  const milli = now.getTime() - initTime;
+  let seg = Math.floor(milli / 1000) % 60;
+  let min = Math.floor(milli / 60000) % 60;
+
+  if (seg < 10) seg = `0${seg}`;
+  if (min < 10) min = `0${min}`;
+
+  tiempo.textContent = `Tiempo ${min}:${seg}`;
+}
+
+function initClock() {
+  const initTime = new Date().getTime();
+  setInterval(updateClock, 1000, initTime);
+}
+
+initClock();
 
 function draw() {
   if (canvas.getContext) {
@@ -32,7 +52,7 @@ function draw() {
 }
 
 let interval;
-
+// Event listeners de teclas presionadas
 addEventListener("keydown", (e) => {
   if (!taza.jumping && e.code == "KeyZ" && taza.posY == HEIGHT - 10) taza.jumping = true;
 
@@ -48,7 +68,7 @@ addEventListener("keydown", (e) => {
 
   taza.apuntar(e.code);
 });
-
+// Event listeners de teclas soltadas
 addEventListener("keyup", (e) => {
   if (taza.derecha && e.code == "ArrowRight") taza.derecha = false;
   else if (taza.izquierda && e.code == "ArrowLeft") taza.izquierda = false;

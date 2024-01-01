@@ -14,7 +14,9 @@ class Bala {
 
   draw(ctx) {
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.posX, this.posY, 5, 5)
+    ctx.beginPath();
+    ctx.arc(this.posX, this.posY, 4, 0, Math.PI * 2, true);
+    ctx.fill();
   }
 
   mover() {
@@ -23,7 +25,7 @@ class Bala {
 
     this.posY = this.evaluarPunto(this.posX);
   }
-
+  // Recibe un valor en x y retorna el valor evaluado en la función
   evaluarPunto(x) {
     const res = this.pendiente * x + this.ordAlOri;
     if (res == 0) return this.posY + this.apunY;

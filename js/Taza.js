@@ -32,7 +32,7 @@ class Taza {
     ctx.fillRect(this.posX, this.posY, this.sizeX, this.sizeY)
 
     this.balas.forEach(b => b.draw(ctx));
-   }
+  }
 
   checkMoves() {
     if (this.jumping) this.jump();
@@ -65,7 +65,7 @@ class Taza {
 
     this.balas.push(new Bala(this.posX, this.posY, posX, posY, "red"));
   }
-
+  // Cambia el lugar donde se apunta dependiendo de las teclas presionadas
   apuntar() {
     if (this.arriba && this.derecha) this.apuntando = 1;
     else if (this.arriba && this.izquierda) this.apuntando = 3;
