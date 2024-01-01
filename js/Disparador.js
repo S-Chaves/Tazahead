@@ -12,12 +12,14 @@ class Disparador extends Enemigo {
   }
 
   disparar(apunX, apunY) {
-    this.balas.push(new Bala(this.posX, this.posY, apunX, apunY, "red"));
+    this.balas.push(new Bala(this.posX, this.posY, apunX, apunY, "purple"));
   }
 
   iniciarDisparos() {
     this.interval = setInterval(() => { this.disparar(this.apunX, this.apunY) }, 1000);
   }
+
+  puntos() { return 10 }
 }
 
 export default Disparador;

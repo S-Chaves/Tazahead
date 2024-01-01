@@ -4,6 +4,7 @@ import Escenario from "./Escenario.js";
 const canvas = document.querySelector("#canvas");
 const vida = document.querySelector("#vida");
 const inmune = document.querySelector("#inmune");
+const puntos = document.querySelector("#puntos");
 
 const WIDTH = 400;
 const HEIGHT = 400;
@@ -64,6 +65,8 @@ addEventListener("keyup", (e) => {
 
 function mostrarHud() {
   vida.textContent = taza.vida;
+  puntos.textContent = `Puntos: ${taza.puntos}`;
+  
   if (taza.inmune) inmune.textContent = "Inmune!";
   else inmune.textContent = "";
 }

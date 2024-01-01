@@ -4,6 +4,8 @@ class Golpeador extends Enemigo {
   constructor(posX, posY) {
     super(posX, posY, "blue");
   }
+
+  puntos() { return 5 }
 }
 
 export default Golpeador;

@@ -13,6 +13,7 @@ class Taza {
 
     this.balas = [];
     this.vida = 3;
+    this.puntos = 0;
 
     this.derecha = false;
     this.izquierda = false;
@@ -74,6 +75,8 @@ class Taza {
   }
 
   damage(val) { this.vida -= val }
+
+  sumarPuntos(val) { this.puntos += val }
 
   moverDerecha(x) { this.posX += x }
 

@@ -18,7 +18,9 @@ class Bala {
   }
 
   mover() {
-    this.posX += this.apunX;
+    if (this.pendiente < 0.5 && this.pendiente > -0.5) this.posX += this.apunX
+    else this.posX += this.apunX / Math.abs(this.pendiente);
+
     this.posY = this.evaluarPunto(this.posX);
   }
 

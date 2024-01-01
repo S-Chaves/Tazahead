@@ -38,11 +38,15 @@ class Escenario {
         if (e instanceof Disparador) {
           e.balas.forEach(b => {
             if (!this.taza.inmune && hayColision(this.taza, b)) this.damageTaza(1);
-          })          
+          })
         };
       })
+
       this.taza.balas.forEach(b => {
-        if (hayColision(e, b)) this.enemigos.splice(i, 1);
+        if (hayColision(e, b)) {
+          this.enemigos.splice(i, 1);
+          this.taza.sumarPuntos(e.puntos());
+        }
       })
     })
 
