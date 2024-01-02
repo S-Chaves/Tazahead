@@ -6,6 +6,7 @@ class Escenario {
   constructor(width, height, taza) {
     this.width = width;
     this.height = height;
+
     this.taza = taza;
     this.jefe = new Jefe(width, taza);
     this.jefe.iniciarCohetes();
@@ -25,45 +26,57 @@ class Escenario {
 
   checkColision() {
     this.warpTaza();
-
-    this.enemigos.forEach((e, i) => {
-      if (e.hayColision(this.taza)) this.damageTaza(1);
-      // Chequea la colision entre las balas de los enemigos y la taza
-      if (e instanceof Disparador) {
-        e.balas.forEach(b => {
-          if (b.hayColision(this.taza)) this.damageTaza(1);
-        })
-      };
-      // Cuando los enemigos se van del canvas dejan de disparar y se eliminan
-      if (e.posY > this.height) {
-        clearInterval(e.interval);
-        
-        if (e instanceof Disparador) {
-          if (e.balas.every(b => fueraDeRango(b, this.width, this.height))) this.enemigos.splice(i, 1);
-        } else this.enemigos.splice(i, 1);
-      }
-      // Chequea la colisión de las balas de la taza con los enemigos
-      this.taza.balas.forEach(b => {
-        if (e.hayColision(b)) {
-          if (e instanceof Disparador) {
-            clearInterval(e.interval);
-            this.muertos.push(this.enemigos.splice(i, 1)[0]);
-          }
-          else this.enemigos.splice(i, 1)[0];
-          this.taza.sumarPuntos(e.puntos());
-        }
-      })
-    })
+    this.checkEnemigoColision();
+    this.checkTazaColision();
     // Espera a que las balas de los enemigos muertos salgan del canvas para eliminarlos
     this.muertos.forEach((m, i) => {
       if (m.balas.every(b => fueraDeRango(b, this.width, this.height))) this.muertos.splice(i, 1);
     })
-    // Elimina las balas de la taza por fuera del canvas
-    this.taza.balas.forEach((b, i) => {
-      if (fueraDeRango(b, this.width, this.height)) {
-        this.taza.balas.splice(i, 1);
+  }
+
+  checkEnemigoColision() {
+    this.enemigos.forEach((e, i) => {
+      if (e.hayColision(this.taza)) this.damageTaza(1);
+      // Chequea la colision entre las balas de los enemigos y la taza
+      if (e instanceof Disparador) {
+        e.balas.forEach((b, i) => {
+          if (b.hayColision(this.taza)) {
+            this.damageTaza(1);
+            e.eliminarBala(i);
+          }
+        })
+      };
+      // Cuando los enemigos se van del canvas dejan de disparar y se eliminan
+      if (e.posY > this.height) {
+        if (e instanceof Disparador) {
+          if (e.balas.every(b => fueraDeRango(b, this.width, this.height))) this.eliminarEnemigo(e, i);
+        } else this.eliminarEnemigo(e, i);
       }
-      if (this.jefe.hayColision(b)) console.log("awda");
+    })
+  }
+
+  checkTazaColision() {
+    this.taza.getBalas().forEach((b, i) => {
+      // Elimina las balas de la taza por fuera del canvas
+      if (fueraDeRango(b, this.width, this.height)) this.taza.eliminarBala(i);
+      // Chequea la colisión de las balas de la taza con el jefe
+      if (this.jefe.hayColision(b)) {
+        this.taza.eliminarBala(i);
+        this.jefe.damage(this.taza.arma.poder);
+        console.log(this.jefe.vida)
+      };
+      // Chequea la colisión de las balas de la taza con los enemigos
+      this.enemigos.forEach((e, j) => {
+        if (e.hayColision(b)) {
+          if (e instanceof Disparador) {
+            this.muertos.push(this.eliminarEnemigo(e, j)[0]);
+          }
+          else this.eliminarEnemigo(e, j)
+  
+          this.taza.eliminarBala(i);
+          this.taza.sumarPuntos(e.puntos());
+        }
+      })
     })
   }
   // Transporta la taza de un lado al otro al tocar la pared
@@ -79,6 +92,11 @@ class Escenario {
       this.enemigos.push(disp);
       disp.iniciarDisparos();
     }
+  }
+  // Elimina un enemigo y limpia su intervalo de disparos
+  eliminarEnemigo(e, i) {
+    if (e.interval) clearInterval(e.interval);
+    return this.enemigos.splice(i, 1);
   }
   // Se encarga de mover a los enemigos y sus balas
   accionesEnemigos() {
@@ -102,7 +120,7 @@ class Escenario {
     this.jefe.draw(ctx);
   }
 }
-
+// Genera un entero random entre 0 y max
 function randomInt(max) {
   return Math.floor(Math.random() * max);
 }

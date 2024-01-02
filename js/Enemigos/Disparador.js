@@ -19,6 +19,8 @@ class Disparador extends Enemigo {
     this.balas.push(new Bala(this.posX, this.posY, this.taza.posX, this.taza.posY, "purple"));
   }
 
+  eliminarBala(i) { this.balas.splice(i, 1) }
+
   iniciarDisparos() {
     this.interval = setInterval(() => { this.disparar() }, 1000);
   }

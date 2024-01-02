@@ -1,5 +1,5 @@
 import Entidad from "./Entidad.js";
-import Bala from "./Proyectiles/Bala.js";
+import Liviana from "./Armas/Liviana.js";
 
 class Taza extends Entidad {
   constructor(posX, posY) {
@@ -9,7 +9,7 @@ class Taza extends Entidad {
     this.apuntaY = this.posY - 8;
     this.apuntando = 0;
 
-    this.balas = [];
+    this.arma = new Liviana(this);
     this.vida = 3;
     this.puntos = 0;
 
@@ -28,8 +28,7 @@ class Taza extends Entidad {
   draw(ctx) {
     ctx.fillStyle = "black";
     ctx.fillRect(this.posX, this.posY, this.sizeX, this.sizeY)
-
-    this.balas.forEach(b => b.draw(ctx));
+    this.arma.drawBalas(ctx);
   }
 
   checkMoves() {
@@ -37,7 +36,7 @@ class Taza extends Entidad {
     if (this.derecha) this.moverDerecha(2);
     if (this.izquierda) this.moverIzquierda(2);
 
-    this.balas.forEach(b => b.mover());
+    this.arma.moverBalas();
   }
 
   jump() {
@@ -61,7 +60,7 @@ class Taza extends Entidad {
     if ([1, 2, 3].includes(ap)) posY -= 5;
     if ([5, 6, 7].includes(ap)) posY += 5;
 
-    this.balas.push(new Bala(this.posX, this.posY, posX, posY, "red"));
+    this.arma.disparar(posX, posY);
   }
   // Cambia el lugar donde se apunta dependiendo de las teclas presionadas
   apuntar() {
@@ -71,6 +70,10 @@ class Taza extends Entidad {
     else if (this.arriba) this.apuntando = 2;
     else if (this.izquierda) this.apuntando = 4;
   }
+
+  getBalas() { return this.arma.balas }
+
+  eliminarBala(i) { this.arma.balas.splice(i, 1) }
 
   damage(val) { this.vida -= val }
 
