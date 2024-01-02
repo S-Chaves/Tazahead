@@ -1,11 +1,14 @@
-import Disparador from "./Disparador.js";
-import Golpeador from "./Golpeador.js";
+import Disparador from "./Enemigos/Disparador.js";
+import Golpeador from "./Enemigos/Golpeador.js";
+import Jefe from "./Jefe.js";
 
 class Escenario {
   constructor(width, height, taza) {
     this.width = width;
     this.height = height;
     this.taza = taza;
+    this.jefe = new Jefe(width, taza);
+    this.jefe.iniciarCohetes();
 
     this.bottomY = this.height - 10;
     this.rightX = this.width - 10;
@@ -24,11 +27,11 @@ class Escenario {
     this.warpTaza();
 
     this.enemigos.forEach((e, i) => {
-      if (hayColision(e, this.taza)) this.damageTaza(1);
+      if (e.hayColision(this.taza)) this.damageTaza(1);
       // Chequea la colision entre las balas de los enemigos y la taza
       if (e instanceof Disparador) {
         e.balas.forEach(b => {
-          if (hayColision(this.taza, b)) this.damageTaza(1);
+          if (b.hayColision(this.taza)) this.damageTaza(1);
         })
       };
       // Cuando los enemigos se van del canvas dejan de disparar y se eliminan
@@ -41,8 +44,11 @@ class Escenario {
       }
       // Chequea la colisión de las balas de la taza con los enemigos
       this.taza.balas.forEach(b => {
-        if (hayColision(e, b)) {
-          if (e instanceof Disparador) this.muertos.push(this.enemigos.splice(i, 1)[0]);
+        if (e.hayColision(b)) {
+          if (e instanceof Disparador) {
+            clearInterval(e.interval);
+            this.muertos.push(this.enemigos.splice(i, 1)[0]);
+          }
           else this.enemigos.splice(i, 1)[0];
           this.taza.sumarPuntos(e.puntos());
         }
@@ -57,6 +63,7 @@ class Escenario {
       if (fueraDeRango(b, this.width, this.height)) {
         this.taza.balas.splice(i, 1);
       }
+      if (this.jefe.hayColision(b)) console.log("awda");
     })
   }
   // Transporta la taza de un lado al otro al tocar la pared
@@ -77,6 +84,7 @@ class Escenario {
   accionesEnemigos() {
     this.enemigos.forEach(e => e.mover());
     this.muertos.forEach(m => m.mover());
+    this.jefe.cohetes.forEach(c => c.mover());
   }
   // Se encarga de restarle vida a la taza
   damageTaza(val) {
@@ -86,26 +94,17 @@ class Escenario {
       setTimeout(() => { this.taza.inmune = false }, 2000);
     }
   }
-
+  // Dibuja todas las entidades
   draw(ctx) {
     this.taza.draw(ctx);
     this.enemigos.forEach(e => e.draw(ctx));
     this.muertos.forEach(m => m.balas.forEach(b => b.draw(ctx)));
+    this.jefe.draw(ctx);
   }
 }
 
 function randomInt(max) {
   return Math.floor(Math.random() * max);
-}
-// Chequea si hay colision entre los parámetros
-function hayColision(obj1, obj2) {
-  const colisionX = (obj1.posX > obj2.posX && obj1.posX < obj2.posX + 10) || 
-    (obj1.posX + 10 > obj2.posX && obj1.posX + 10 < obj2.posX + 10);
-
-  const colisionY = (obj1.posY > obj2.posY && obj1.posY < obj2.posY + 10) || 
-    (obj1.posY + 10 > obj2.posY && obj1.posY + 10 < obj2.posY + 10);
-
-  return colisionX && colisionY;
 }
 // Chequea si el objeto esta por fuera del canvas
 function fueraDeRango(obj, w, h) {

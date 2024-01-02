@@ -1,11 +1,10 @@
-class Enemigo {
-  constructor(posX, posY, color) {
-    this.posX = posX;
-    this.posY = posY;
-    this.sizeX = 10;
-    this.sizeY = 10;
+import Entidad from "../Entidad.js";
+
+class Enemigo extends Entidad {
+  constructor(posX, posY, sizeX, sizeY, color) {
+    super(posX, posY, sizeX, sizeY);
+
     this.color = color;
-    
     this.velocidad = Math.random() + 0.4;
   }
 

@@ -1,11 +1,9 @@
-import Bala from "./Bala.js";
+import Entidad from "./Entidad.js";
+import Bala from "./Proyectiles/Bala.js";
 
-class Taza {
+class Taza extends Entidad {
   constructor(posX, posY) {
-    this.posX = posX;
-    this.posY = posY;
-    this.sizeX = 10;
-    this.sizeY = 10;
+    super(posX, posY, 10, 10);
 
     this.apuntaX = this.posX + 5;
     this.apuntaY = this.posY - 8;

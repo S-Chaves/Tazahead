@@ -1,9 +1,9 @@
 import Enemigo from "./Enemigo.js";
-import Bala from "./Bala.js";
+import Bala from "../Proyectiles/Bala.js";
 
 class Disparador extends Enemigo {
   constructor(posX, posY, taza) {
-    super(posX, posY, "green");
+    super(posX, posY, 10, 10, "green");
     this.taza = taza;
 
     this.interval;

@@ -7,30 +7,11 @@ const inmune = document.querySelector("#inmune");
 const puntos = document.querySelector("#puntos");
 const tiempo = document.querySelector("#tiempo");
 
-const WIDTH = 400;
-const HEIGHT = 400;
+const WIDTH = 500;
+const HEIGHT = 500;
 
 const taza = new Taza(10, HEIGHT - 10);
 const escenario = new Escenario(WIDTH, HEIGHT, taza);
-
-function updateClock(initTime) {
-  const now = new Date();
-  const milli = now.getTime() - initTime;
-  let seg = Math.floor(milli / 1000) % 60;
-  let min = Math.floor(milli / 60000) % 60;
-
-  if (seg < 10) seg = `0${seg}`;
-  if (min < 10) min = `0${min}`;
-
-  tiempo.textContent = `Tiempo ${min}:${seg}`;
-}
-
-function initClock() {
-  const initTime = new Date().getTime();
-  setInterval(updateClock, 1000, initTime);
-}
-
-initClock();
 
 function draw() {
   if (canvas.getContext) {
@@ -82,6 +63,26 @@ addEventListener("keyup", (e) => {
 
   taza.apuntar(e.code);
 });
+
+
+function updateClock(initTime) {
+  const now = new Date();
+  const milli = now.getTime() - initTime;
+  let seg = Math.floor(milli / 1000) % 60;
+  let min = Math.floor(milli / 60000) % 60;
+
+  if (seg < 10) seg = `0${seg}`;
+  if (min < 10) min = `0${min}`;
+
+  tiempo.textContent = `Tiempo ${min}:${seg}`;
+}
+
+function initClock() {
+  const initTime = new Date().getTime();
+  setInterval(updateClock, 1000, initTime);
+}
+
+initClock();
 
 function mostrarHud() {
   vida.textContent = taza.vida;
