@@ -9,7 +9,6 @@ class Escenario {
 
     this.taza = taza;
     this.jefe = new Jefe(width, taza);
-    this.jefe.iniciarCohetes();
 
     this.bottomY = this.height - 10;
     this.rightX = this.width - 10;
@@ -85,13 +84,9 @@ class Escenario {
     else if (this.taza.posX == this.width + 10) this.taza.setPosX(0);
   }
   // Crea nuevos enemigos
-  nuevoEnemigo() {
-    if (this.enemigos.length < 5) {
-      this.enemigos.push(new Golpeador(randomInt(this.rightX), 0));
-      const disp = new Disparador(randomInt(this.rightX), 0, this.taza);
-      this.enemigos.push(disp);
-      disp.iniciarDisparos();
-    }
+  nuevoEnemigo(tipo) {
+    if (tipo == 0) this.enemigos.push(new Golpeador(randomInt(this.rightX), 0));
+    else if (tipo == 1) this.enemigos.push(new Disparador(randomInt(this.rightX), 0, this.taza));
   }
   // Elimina un enemigo y limpia su intervalo de disparos
   eliminarEnemigo(e, i) {

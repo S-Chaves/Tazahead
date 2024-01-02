@@ -8,6 +8,8 @@ class Disparador extends Enemigo {
 
     this.interval;
     this.balas = [];
+
+    this.iniciarDisparos();
   }
 
   draw(ctx) {

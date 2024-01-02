@@ -23,7 +23,6 @@ function draw() {
 
     escenario.gravedad();
     escenario.checkColision();
-    escenario.nuevoEnemigo();
     escenario.accionesEnemigos();
 
     escenario.draw(ctx);

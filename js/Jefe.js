@@ -3,7 +3,7 @@ import Cohete from "./Proyectiles/Cohete.js";
 
 class Jefe extends Entidad {
   constructor(canvasW, taza) {
-    super(canvasW / 2 - 270 / 2, 25, 250, 50);
+    super(canvasW / 2 - 270 / 2, -65, 250, 50);
     this.w = this.sizeX + 20;
 
     this.cohetes = [];
@@ -12,6 +12,8 @@ class Jefe extends Entidad {
 
     this.taza = taza;
     this.interval;
+
+    this.iniciarCombate();
   }
 
   draw(ctx) {
@@ -32,7 +34,21 @@ class Jefe extends Entidad {
     }
   }
 
+  iniciarCombate() {
+    let i = 1;
+    const inter = setInterval(() => { 
+      this.posY += 2 * i;
+      i -= 0.011;
+    }, 16);
+
+    setTimeout(() => { 
+      clearInterval(inter);
+      this.iniciarCohetes();
+     }, 1400)
+  }
+
   iniciarCohetes() {
+    this.dispararCohete();
     this.interval = setInterval(() => { this.dispararCohete() }, 2000);
   }
 
